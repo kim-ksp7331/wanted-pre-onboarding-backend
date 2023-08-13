@@ -1,12 +1,12 @@
-package wanted.preonboarding.board.Member.service;
+package wanted.preonboarding.board.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wanted.preonboarding.board.Member.dto.MemberDTO;
-import wanted.preonboarding.board.Member.entity.Member;
-import wanted.preonboarding.board.Member.mapper.MemberMapper;
-import wanted.preonboarding.board.Member.repository.MemberRepository;
+import wanted.preonboarding.board.member.dto.MemberDTO;
+import wanted.preonboarding.board.member.entity.Member;
+import wanted.preonboarding.board.member.mapper.MemberMapper;
+import wanted.preonboarding.board.member.repository.MemberRepository;
 
 @Service
 @RequiredArgsConstructor

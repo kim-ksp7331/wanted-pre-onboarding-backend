@@ -1,6 +1,5 @@
-package wanted.preonboarding.board.Member.mapper;
+package wanted.preonboarding.board.member.mapper;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
@@ -8,11 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import wanted.preonboarding.board.Member.dto.MemberDTO;
-import wanted.preonboarding.board.Member.entity.Member;
+import wanted.preonboarding.board.member.dto.MemberDTO;
+import wanted.preonboarding.board.member.entity.Member;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+
 @ExtendWith(MockitoExtension.class)
 class MemberMapperTest {
     @InjectMocks

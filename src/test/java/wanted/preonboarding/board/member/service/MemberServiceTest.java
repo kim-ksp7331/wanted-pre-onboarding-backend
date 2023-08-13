@@ -1,20 +1,17 @@
-package wanted.preonboarding.board.Member.service;
+package wanted.preonboarding.board.member.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import wanted.preonboarding.board.Member.dto.MemberDTO;
-import wanted.preonboarding.board.Member.entity.Member;
-import wanted.preonboarding.board.Member.mapper.MemberMapper;
-import wanted.preonboarding.board.Member.repository.MemberRepository;
+import wanted.preonboarding.board.member.dto.MemberDTO;
+import wanted.preonboarding.board.member.entity.Member;
+import wanted.preonboarding.board.member.mapper.MemberMapper;
+import wanted.preonboarding.board.member.repository.MemberRepository;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {

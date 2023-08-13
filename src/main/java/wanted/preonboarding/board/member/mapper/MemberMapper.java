@@ -1,10 +1,10 @@
-package wanted.preonboarding.board.Member.mapper;
+package wanted.preonboarding.board.member.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import wanted.preonboarding.board.Member.dto.MemberDTO;
-import wanted.preonboarding.board.Member.entity.Member;
+import wanted.preonboarding.board.member.dto.MemberDTO;
+import wanted.preonboarding.board.member.entity.Member;
 
 @Component
 @RequiredArgsConstructor

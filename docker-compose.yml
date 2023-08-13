@@ -9,7 +9,7 @@ services:
       - mysql-data:/var/lib/mysql
     environment:
       MYSQL_USER: user
-      MYSQL_DATABASE: example
+      MYSQL_DATABASE: board
     env_file: .env
     networks:
       - spring-network

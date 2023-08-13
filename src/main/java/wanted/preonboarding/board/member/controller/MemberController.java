@@ -1,21 +1,19 @@
-package wanted.preonboarding.board.Member.controller;
+package wanted.preonboarding.board.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-import wanted.preonboarding.board.Member.dto.MemberDTO;
-import wanted.preonboarding.board.Member.service.MemberService;
+import wanted.preonboarding.board.member.dto.MemberDTO;
+import wanted.preonboarding.board.member.service.MemberService;
 
 import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@Validated
 public class MemberController {
     private final MemberService memberService;
 

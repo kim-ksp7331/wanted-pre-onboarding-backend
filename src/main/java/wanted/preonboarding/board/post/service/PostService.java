@@ -1,6 +1,10 @@
 package wanted.preonboarding.board.post.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +32,14 @@ public class PostService {
 
     public PostDTO.Response findPost(Long postId) {
         return mapper.entityToResponseDTO(findVerifiedPost(postId));
+    }
+
+    public PostDTO.Responses findPosts(int page, int size) {
+        int pageFromZero = page - 1;
+        String defaultProperty = "id";
+        Pageable pageable = PageRequest.of(pageFromZero, size, Sort.by(Sort.Direction.DESC, defaultProperty));
+        Page<Post> posts = postRepository.findAll(pageable);
+        return mapper.entityPageToResponsesDTO(posts);
     }
 
     private Post findVerifiedPost(Long postId) {

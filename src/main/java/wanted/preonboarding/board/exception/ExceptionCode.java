@@ -7,7 +7,6 @@ public enum ExceptionCode {
     MEMBER_EXISTS(409, "Member Exists"),;
     @Getter
     private final int status;
-
     @Getter
     private final String message;
 

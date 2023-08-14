@@ -15,13 +15,14 @@ import java.net.URI;
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
+    private final static String MEMBER_URL = "/members/{id}";
     private final MemberService memberService;
 
     @PostMapping("/members")
     public ResponseEntity<Void> joinMember(@RequestBody @Valid MemberDTO memberDTO) {
         Long memberId = memberService.createMember(memberDTO);
         URI uri = UriComponentsBuilder.newInstance()
-                .path("/members/{id}")
+                .path(MEMBER_URL)
                 .buildAndExpand(memberId)
                 .toUri();
         return ResponseEntity.created(uri).build();

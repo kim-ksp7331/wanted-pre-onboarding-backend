@@ -9,6 +9,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import wanted.preonboarding.board.member.dto.MemberDTO;
 import wanted.preonboarding.board.member.entity.Member;
+import wanted.preonboarding.board.security.utils.CustomAuthorityUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -18,6 +22,8 @@ class MemberMapperTest {
     private MemberMapper memberMapper;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private CustomAuthorityUtils authorityUtils;
 
     @Test
     void DTOToEntity() {
@@ -26,6 +32,7 @@ class MemberMapperTest {
         String password = "asdf1234";
         MemberDTO memberDTO = MemberDTO.builder().email(email).password(password).build();
         BDDMockito.given(passwordEncoder.encode(password)).willReturn(password);
+        BDDMockito.given(authorityUtils.getRoles()).willReturn(List.of());
 
         // when
         Member result = memberMapper.DTOToEntity(memberDTO);

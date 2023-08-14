@@ -10,10 +10,8 @@ import wanted.preonboarding.board.response.ErrorResponse;
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
     @ExceptionHandler
-    public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
-
-        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode()
-                .getStatus()));
+    public ResponseEntity<ErrorResponse> handleBusinessLogicException(BusinessLogicException e) {
+        ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
 }

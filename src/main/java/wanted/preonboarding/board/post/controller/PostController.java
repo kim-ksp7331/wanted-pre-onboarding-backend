@@ -37,4 +37,10 @@ public class PostController {
         PostDTO.Response response = postService.findPost(postId);
         return ResponseEntity.ok(response);
     }
+    @GetMapping
+    public ResponseEntity<PostDTO.Responses> getPosts(@RequestParam(defaultValue = "1") int page,
+                                                      @RequestParam(defaultValue = "10") int size) {
+        PostDTO.Responses responses = postService.findPosts(page, size);
+        return ResponseEntity.ok(responses);
+    }
 }

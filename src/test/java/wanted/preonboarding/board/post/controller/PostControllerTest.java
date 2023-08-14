@@ -1,7 +1,6 @@
 package wanted.preonboarding.board.post.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
@@ -15,8 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import wanted.preonboarding.board.post.dto.PostDTO;
-import wanted.preonboarding.board.post.entity.Post;
 import wanted.preonboarding.board.post.service.PostService;
+
+import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -84,5 +84,49 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.author").value(author))
                 .andExpect(jsonPath("$.title").value(title))
                 .andExpect(jsonPath("$.content").value(content));
+    }
+
+    @Test
+    void getPosts() throws Exception {
+        // given
+        int page = 1;
+        int size = 10;
+        int totalPages = 1;
+        int totalSize = 3;
+        final String title = "title";
+        final String content = "content";
+        final String emailPrefix = "abc";
+
+        ArrayList<PostDTO.Response> list = new ArrayList<>();
+        for (long i = 1; i <= totalSize; i++) {
+            long postId = i;
+            String author = String.format("%s%d@gmail.com", emailPrefix, i);
+            list.add(PostDTO.Response.builder()
+                    .postId(postId).author(author).title(title + i).content(content + i).build());
+        }
+        PostDTO.Responses responses = PostDTO.Responses.builder().posts(list)
+                .page(page).size(size).totalPages(totalPages).totalElements(totalSize).build();
+
+        BDDMockito.given(postService.findPosts(Mockito.anyInt(), Mockito.anyInt())).willReturn(responses);
+        String urlTemplate = "/posts";
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get(urlTemplate)
+                        .param("page", page + "")
+                        .param("size", size + "")
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.posts[*].title").value(everyItem(is(startsWith(title)))))
+                .andExpect(jsonPath("$.posts[*].content").value(everyItem(is(startsWith(content)))))
+                .andExpect(jsonPath("$.posts[*].author").value(everyItem(is(startsWith(emailPrefix)))))
+                .andExpect(jsonPath("$.page").value(page))
+                .andExpect(jsonPath("$.size").value(size))
+                .andExpect(jsonPath("$.totalElements").value(totalSize))
+                .andExpect(jsonPath("$.totalPages").value(totalPages));
     }
 }

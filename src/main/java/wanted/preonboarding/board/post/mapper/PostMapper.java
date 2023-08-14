@@ -7,11 +7,20 @@ import wanted.preonboarding.board.post.entity.Post;
 
 @Component
 public class PostMapper {
-    public Post postDTOToPost(PostDTO.Post post, Long memberId) {
+    public Post postDTOToEntity(PostDTO.Post post, Long memberId) {
         return Post.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
                 .member(Member.builder().id(memberId).build())
+                .build();
+    }
+
+    public PostDTO.Response entityToResponseDTO(Post post) {
+        return PostDTO.Response.builder()
+                .postId(post.getId())
+                .author(post.getMember().getEmail())
+                .title(post.getTitle())
+                .content(post.getContent())
                 .build();
     }
 }

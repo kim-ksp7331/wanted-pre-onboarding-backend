@@ -12,4 +12,14 @@ public class PostDTO {
         private String title;
         private String content;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class Response {
+        private Long postId;
+        private String author;
+        private String title;
+        private String content;
+    }
 }

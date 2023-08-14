@@ -1,17 +1,16 @@
 package wanted.preonboarding.board.post.mapper;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import wanted.preonboarding.board.member.entity.Member;
 import wanted.preonboarding.board.post.dto.PostDTO;
 import wanted.preonboarding.board.post.entity.Post;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class PostMapperTest {
     private PostMapper postMapper = new PostMapper();
     @Test
-    void postDTOToPost() {
+    void postDTOToEntity() {
         // given
         String title = "title1";
         String content = "content1";
@@ -19,11 +18,32 @@ class PostMapperTest {
         PostDTO.Post dto = PostDTO.Post.builder().title(title).content(content).build();
 
         // when
-        Post post = postMapper.postDTOToPost(dto, memberId);
+        Post post = postMapper.postDTOToEntity(dto, memberId);
 
         // then
         assertThat(post.getTitle()).isEqualTo(title);
         assertThat(post.getContent()).isEqualTo(content);
         assertThat(post.getMember().getId()).isEqualTo(memberId);
+    }
+
+    @Test
+    void entityToResponseDTO() {
+        // given
+        Long memberId = 2L;
+        String email = "asdf@gmail.com";
+        Long postId = 1L;
+        String title = "title1";
+        String content = "content1";
+        Member member = Member.builder().id(memberId).email(email).build();
+        Post post = Post.builder().id(postId).title(title).content(content).member(member).build();
+
+        // when
+        PostDTO.Response result = postMapper.entityToResponseDTO(post);
+
+        // then
+        assertThat(result.getPostId()).isEqualTo(postId);
+        assertThat(result.getTitle()).isEqualTo(title);
+        assertThat(result.getContent()).isEqualTo(content);
+        assertThat(result.getAuthor()).isEqualTo(email);
     }
 }

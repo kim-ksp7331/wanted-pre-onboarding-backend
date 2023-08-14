@@ -4,15 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import wanted.preonboarding.board.post.dto.PostDTO;
 import wanted.preonboarding.board.post.service.PostService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.net.URI;
 
 @RestController
@@ -32,5 +30,11 @@ public class PostController {
                 .buildAndExpand(id)
                 .toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDTO.Response> getPost(@PathVariable("id") @Positive Long postId) {
+        PostDTO.Response response = postService.findPost(postId);
+        return ResponseEntity.ok(response);
     }
 }

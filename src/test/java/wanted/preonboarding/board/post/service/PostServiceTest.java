@@ -1,6 +1,5 @@
 package wanted.preonboarding.board.post.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
@@ -14,8 +13,9 @@ import wanted.preonboarding.board.post.entity.Post;
 import wanted.preonboarding.board.post.mapper.PostMapper;
 import wanted.preonboarding.board.post.repository.PostRepository;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
@@ -38,7 +38,7 @@ class PostServiceTest {
         Post post = Post.builder().title(title).content(content).build();
         Post save = Post.builder().id(postId).title(title).content(content).build();
 
-        BDDMockito.given(postMapper.postDTOToPost(dto, memberId)).willReturn(post);
+        BDDMockito.given(postMapper.postDTOToEntity(dto, memberId)).willReturn(post);
         BDDMockito.given(postRepository.save(post)).willReturn(save);
 
         // when
@@ -46,5 +46,25 @@ class PostServiceTest {
 
         // then
         assertThat(result).isEqualTo(postId);
+    }
+
+    @Test
+    void findPost() {
+        // given
+        Long postId = 1L;
+        String title = "title1";
+        String content = "content1";
+        String author = "asdf@gmail.com";
+        Post post = Post.builder().id(postId).title(title).content(content).build();
+        PostDTO.Response response = PostDTO.Response.builder().author(author).postId(postId).title(title).content(content).build();
+
+        BDDMockito.given(postRepository.findById(1L)).willReturn(Optional.ofNullable(post));
+        BDDMockito.given(postMapper.entityToResponseDTO(post)).willReturn(response);
+
+        // when
+        PostDTO.Response result = postService.findPost(postId);
+
+        // then
+        assertThat(result).isEqualTo(response);
     }
 }

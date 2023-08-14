@@ -1,14 +1,11 @@
 package wanted.preonboarding.board.post.service;
 
-import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.util.NumberUtils;
 import wanted.preonboarding.board.post.entity.Post;
-import wanted.preonboarding.board.post.service.PostService;
 
 import java.util.function.Supplier;
 

@@ -47,6 +47,10 @@ public class PostService {
         Page<Post> posts = postRepository.findAll(pageable);
         return mapper.entityPageToResponsesDTO(posts);
     }
+    public void deletePost(Long postId) {
+        Post post = findVerifiedPost(postId);
+        postRepository.delete(post);
+    }
 
     Post findVerifiedPost(Long postId) {
         Optional<Post> optionalPost = postRepository.findById(postId);

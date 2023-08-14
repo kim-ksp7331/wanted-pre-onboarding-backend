@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import wanted.preonboarding.board.post.dto.PostDTO;
+import wanted.preonboarding.board.post.entity.Post;
 import wanted.preonboarding.board.post.service.PostService;
 
 import static org.hamcrest.Matchers.*;
@@ -56,5 +57,32 @@ class PostControllerTest {
         actions
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", is(equalTo(resourceUrl))));
+    }
+
+    @Test
+    void getPost() throws Exception {
+        // given
+        Long postId = 1L;
+        String title = "title1";
+        String content = "content1";
+        String author = "asdf@gmail.com";
+        PostDTO.Response response = PostDTO.Response.builder().author(author).postId(postId).title(title).content(content).build();
+
+        BDDMockito.given(postService.findPost(1L)).willReturn(response);
+        String urlTemplate = "/posts/{id}";
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get(urlTemplate, postId)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.postId").value(postId))
+                .andExpect(jsonPath("$.author").value(author))
+                .andExpect(jsonPath("$.title").value(title))
+                .andExpect(jsonPath("$.content").value(content));
     }
 }

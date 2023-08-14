@@ -3,7 +3,9 @@ package wanted.preonboarding.board.post.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class PostDTO {
@@ -11,6 +13,18 @@ public class PostDTO {
     @AllArgsConstructor
     @Builder
     public static class Post {
+        @NotNull
+        private String title;
+        @NotNull
+        private String content;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class Patch {
+        @Setter
+        private Long postId;
         private String title;
         private String content;
     }

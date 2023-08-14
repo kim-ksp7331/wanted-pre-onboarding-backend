@@ -19,7 +19,6 @@ import java.net.URI;
 @Validated
 public class PostController {
     private final static String POST_URL = "/posts/{id}";
-
     private final PostService postService;
 
     @PostMapping
@@ -30,6 +29,14 @@ public class PostController {
                 .buildAndExpand(id)
                 .toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<PostDTO.Response> patchPost(@PathVariable("id") @Positive Long postId,
+                                                      @RequestBody @Valid PostDTO.Patch patch) {
+        patch.setPostId(postId);
+        PostDTO.Response response = postService.updatePost(patch);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")

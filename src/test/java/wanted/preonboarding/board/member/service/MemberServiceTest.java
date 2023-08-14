@@ -11,6 +11,8 @@ import wanted.preonboarding.board.member.entity.Member;
 import wanted.preonboarding.board.member.mapper.MemberMapper;
 import wanted.preonboarding.board.member.repository.MemberRepository;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +35,7 @@ class MemberServiceTest {
         Member save = Member.builder().id(id).email(email).password(password).build();
 
         BDDMockito.given(mapper.DTOToEntity(memberDTO)).willReturn(member);
+        BDDMockito.given(memberRepository.findByEmail(email)).willReturn(Optional.empty());
         BDDMockito.given(memberRepository.save(member)).willReturn(save);
 
         // when

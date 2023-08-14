@@ -50,4 +50,10 @@ public class PostController {
         PostDTO.Responses responses = postService.findPosts(page, size);
         return ResponseEntity.ok(responses);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable("id") @Positive Long postId) {
+        postService.deletePost(postId);
+        return ResponseEntity.noContent().build();
+    }
 }

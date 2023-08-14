@@ -160,4 +160,20 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.totalElements").value(totalSize))
                 .andExpect(jsonPath("$.totalPages").value(totalPages));
     }
+
+    @Test
+    void deletePost() throws Exception {
+        // given
+        Long postId = 1L;
+        String urlTemplate = "/posts/{id}";
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                delete(urlTemplate, postId)
+        );
+
+        // then
+        actions
+                .andExpect(status().isNoContent());
+    }
 }

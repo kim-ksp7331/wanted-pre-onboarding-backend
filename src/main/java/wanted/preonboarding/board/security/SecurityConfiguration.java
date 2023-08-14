@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import wanted.preonboarding.board.post.service.PostAuthorizationManager;
 import wanted.preonboarding.board.security.filter.JwtAuthenticationFilter;
 import wanted.preonboarding.board.security.filter.JwtVerificationFilter;
 import wanted.preonboarding.board.security.handler.MemberAccessDeniedHandler;
@@ -29,6 +30,7 @@ public class SecurityConfiguration {
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AuthenticationFailureHandler authenticationFailureHandler;
     private final CustomAuthorityUtils authorityUtils;
+    private final PostAuthorizationManager postAuthorizationManager;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -45,6 +47,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.POST, "/members").permitAll()
                         .antMatchers(HttpMethod.POST, "/posts").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
+                        .antMatchers("/posts/{id}").access(postAuthorizationManager)
                         .anyRequest().permitAll())
                 .build();
     }

@@ -1,5 +1,6 @@
 package wanted.preonboarding.board.post.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -57,6 +58,36 @@ class PostControllerTest {
         actions
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", is(equalTo(resourceUrl))));
+    }
+
+    @Test
+    void patchPost() throws Exception {
+        // given
+        String title = "title1";
+        String content = "content1";
+        Long postId = 1L;
+        PostDTO.Response response = PostDTO.Response.builder().postId(postId).title(title).content(content).build();
+
+        PostDTO.Patch patch = PostDTO.Patch.builder().title(title).content(content).build();
+        String json = objectMapper.writeValueAsString(patch);
+
+        BDDMockito.given(postService.updatePost(Mockito.any(PostDTO.Patch.class))).willReturn(response);
+        String urlTemplate = "/posts/{id}";
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                patch(urlTemplate, postId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json)
+        );
+
+        // then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.postId").value(postId))
+                .andExpect(jsonPath("$.title").value(title))
+                .andExpect(jsonPath("$.content").value(content));
     }
 
     @Test

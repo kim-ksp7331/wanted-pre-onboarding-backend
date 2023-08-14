@@ -30,6 +30,12 @@ public class PostService {
         return postRepository.save(post).getId();
     }
 
+    public PostDTO.Response updatePost(PostDTO.Patch dto) {
+        Post post = findVerifiedPost(dto.getPostId());
+        post.update(dto);
+        return mapper.entityToResponseDTO(post);
+    }
+
     public PostDTO.Response findPost(Long postId) {
         return mapper.entityToResponseDTO(findVerifiedPost(postId));
     }
@@ -42,12 +48,12 @@ public class PostService {
         return mapper.entityPageToResponsesDTO(posts);
     }
 
-    private Post findVerifiedPost(Long postId) {
+    Post findVerifiedPost(Long postId) {
         Optional<Post> optionalPost = postRepository.findById(postId);
         return optionalPost.orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
     }
 
-    private Long getMemberIdFromAuthentication(Authentication authentication) {
+    Long getMemberIdFromAuthentication(Authentication authentication) {
         return Long.parseLong(authentication.getPrincipal().toString());
     }
 }

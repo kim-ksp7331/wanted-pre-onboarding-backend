@@ -54,6 +54,30 @@ class PostServiceTest {
     }
 
     @Test
+    void updatePost() {
+        // given
+        Long postId = 1L;
+        String title = "title1";
+        String content = "content1";
+        String author = "asdf@gmail.com";
+        String changedTitle = "title2";
+        String changedContent = "content2";
+
+        PostDTO.Patch patch = PostDTO.Patch.builder().postId(postId).title(changedTitle).content(changedContent).build();
+        Post post = Post.builder().id(postId).title(title).content(content).build();
+        PostDTO.Response response = PostDTO.Response.builder().author(author).postId(postId).title(changedTitle).content(changedContent).build();
+
+        BDDMockito.given(postRepository.findById(postId)).willReturn(Optional.ofNullable(post));
+        BDDMockito.given(postMapper.entityToResponseDTO(post)).willReturn(response);
+
+        // when
+        PostDTO.Response result = postService.updatePost(patch);
+
+        // then
+        assertThat(result).isEqualTo(response);
+    }
+
+    @Test
     void findPost() {
         // given
         Long postId = 1L;
@@ -63,7 +87,7 @@ class PostServiceTest {
         Post post = Post.builder().id(postId).title(title).content(content).build();
         PostDTO.Response response = PostDTO.Response.builder().author(author).postId(postId).title(title).content(content).build();
 
-        BDDMockito.given(postRepository.findById(1L)).willReturn(Optional.ofNullable(post));
+        BDDMockito.given(postRepository.findById(postId)).willReturn(Optional.ofNullable(post));
         BDDMockito.given(postMapper.entityToResponseDTO(post)).willReturn(response);
 
         // when

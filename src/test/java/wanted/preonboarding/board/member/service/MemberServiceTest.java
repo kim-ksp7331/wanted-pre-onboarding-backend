@@ -6,6 +6,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import wanted.preonboarding.board.exception.BusinessLogicException;
 import wanted.preonboarding.board.member.dto.MemberDTO;
 import wanted.preonboarding.board.member.entity.Member;
 import wanted.preonboarding.board.member.mapper.MemberMapper;
@@ -43,5 +44,21 @@ class MemberServiceTest {
 
         // then
         assertThat(result).isEqualTo(id);
+    }
+
+    @Test
+    void createMemberWhenEmailExist() {
+        // given
+        String email = "abcd@gmail.com";
+        String password = "asdf1234";
+
+        MemberDTO memberDTO = MemberDTO.builder().email(email).password(password).build();
+        Member member = Member.builder().email(email).password(password).build();
+
+        BDDMockito.given(memberRepository.findByEmail(email)).willReturn(Optional.ofNullable(member));
+
+        // when // then
+        assertThatThrownBy(() -> memberService.createMember(memberDTO)).isInstanceOf(BusinessLogicException.class);
+
     }
 }

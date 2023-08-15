@@ -22,6 +22,7 @@
 
 ## 구현 동작 및 설명
 ### API 동작 영상
+[![Video Label](http://img.youtube.com/vi/Boa3V9bcn4w/0.jpg)](https://youtu.be/Boa3V9bcn4w)
 ### 부연 설명
 #### 환경 구성
 애플리케이션은 AWS EC2에 배포했습니다. 데이터베이스같은 경우 RDS를 사용할 경우 비용이 많이 발생할 것을 우려해서 EC2에 MySQL을 설치하여 사용했습니다. 

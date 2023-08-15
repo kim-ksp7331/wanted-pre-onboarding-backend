@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import wanted.preonboarding.board.exception.BusinessLogicException;
 import wanted.preonboarding.board.post.dto.PostDTO;
 import wanted.preonboarding.board.post.entity.Post;
 import wanted.preonboarding.board.post.mapper.PostMapper;
@@ -95,6 +96,18 @@ class PostServiceTest {
 
         // then
         assertThat(result).isEqualTo(response);
+    }
+
+    @Test
+    void findPostWhenNoPost() {
+        // given
+        Long postId = 1L;
+
+        BDDMockito.given(postRepository.findById(postId)).willReturn(Optional.empty());
+
+        // when // then
+        assertThatThrownBy(() -> postService.findPost(postId)).isInstanceOf(BusinessLogicException.class);
+
     }
 
     @Test
